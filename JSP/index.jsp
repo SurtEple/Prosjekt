@@ -32,11 +32,12 @@
 
                     ResultSetMetaData metaData = rS.getMetaData();
                     int columns = metaData.getColumnCount();
+                    
                     while (rS.next()) {//reading one record
                         for (int i = 1; i <= columns; ++i) {//this reads column by column
-                            result += "<" + metaData.getColumnName(i) + ">";
-                            result += rS.getString(i);
-                            result += "</" + metaData.getColumnName(i) + ">\n";
+                            result += metaData.getColumnName(i) + "\n";
+                            result += rS.getString(i) + "\n";
+                            result +=  metaData.getColumnName(i) + "\n";
 
                         }//closes for loop
                     }//closes while loop
