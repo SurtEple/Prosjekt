@@ -41,14 +41,14 @@
 
                     
 
-
+                    //Insert into Bruker
                      insertQ = "INSERT INTO Bruker (Brukernavn, Passord, Salt, Fornavn, Mellomnavn, Etternavn,"
                              + " Epost, IM, Telefonnr, Adresse, Postnummer, `By` , Stilling_ID, Administrator)"
                              + "VALUES ('" + navn + "','" + passord + "','" +salt + "','" + fornavn +"','"
                              + mellomnavn + "','" + etternavn + "','"+ ePost + "','" + im + "', " + telefonNr 
                              + ", '" + adresse + "'," + postNr + ", '" + by + "'," + stillingId + "," + admin +");" ; 
                     
-                    //Insert into Bruker
+                    
                     state.executeUpdate(insertQ);
                     out.println("Insert into Bruker OK <br />");
 
