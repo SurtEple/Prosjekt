@@ -7,8 +7,13 @@
 package javaklasse;
 
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -78,6 +83,25 @@ public class DBConnection {
         {
             return liste;
         }
+    }
+    public ArrayList<Oppgave> selectOppgave()
+    {
+        ArrayList<Oppgave> liste = new ArrayList<Oppgave>();
+        
+        try
+        {
+            
+        }
+        catch (Exception e)
+        {
+            
+        }
+        finally
+        {
+            return liste;
+        }
+        
+        
     }
     public ArrayList<Fase> selectFase()
     {
@@ -242,6 +266,80 @@ public class DBConnection {
 
             if(stmnt != null)
                 stmnt.close();
+        }
+    }
+    public Boolean checkInnlogging(String brukernavn, String passord)
+    {
+        boolean check = false;
+        try
+        {
+            stmnt = con.createStatement();
+            ResultSet rs = stmnt.executeQuery("SELECT Salt FROM Bruker WHERE Brukernavn = " + brukernavn);
+            String salt = rs.getString("Salt");
+            String passWord = getHash(salt, passord);
+            ResultSet rs2 = stmnt.executeQuery("SELECT * FROM Bruker WHERE Passord = " + passWord);
+            while(rs2.next())
+            {
+                check = true;
+            }
+            
+            
+        }
+        catch (Exception e)
+        {
+            
+        }
+        finally
+        {
+            return check;
+        }
+    }
+    public String getSalt()
+    {
+            final Random r = new SecureRandom();
+            byte[] salt = new byte[5];
+            r.nextBytes(salt);
+            StringBuilder sb = new StringBuilder(2 * salt.length);
+            for (byte b : salt)
+            {
+                sb.append(String.format("%02x", b & 0xff));
+            }
+            
+            return sb.toString();
+    }
+    public String getHash(String salt, String passWord)
+    {
+        StringBuilder sb = null;
+        try
+        {
+            byte[] byteSalt = salt.getBytes("UTF-8");
+            byte[] bytePassord = passWord.getBytes("UTF-8");
+            byte[] combined = new byte[byteSalt.length + bytePassord.length];
+        for (int i = 0; i < combined.length; ++i)
+        {
+            combined[i] = i < bytePassord.length ? bytePassord[i] : byteSalt[i - bytePassord.length];
+        }
+	MessageDigest md = MessageDigest.getInstance("MD5");
+	byte[] thedigest = md.digest(combined);
+
+	sb = new StringBuilder(2 * thedigest.length);
+	for (byte b : thedigest) 
+        {
+            sb.append(String.format("%02x", b & 0xff));
+	}
+        }
+        catch (UnsupportedEncodingException e) 
+        {
+			// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+        catch(NoSuchAlgorithmException e)
+	{
+		e.printStackTrace();
+	}
+        finally
+        {
+            return sb.toString();
         }
     }
     public boolean isClosed()
