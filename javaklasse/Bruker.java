@@ -126,5 +126,5 @@ public class Bruker {
     public void setStilling(String stilling) {
         this.stilling = stilling;
     }
-
+    
 }

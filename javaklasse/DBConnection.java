@@ -51,9 +51,7 @@ public class DBConnection {
         try
         {
             stmnt = con.createStatement();
-            ResultSet rs = stmnt.executeQuery("Select ID, Brukernavn, Fornavn, Mellomnavn, "
-                    + "Etternavn, Epost, IM, Telefonnr, Adresse, Postnummer, By, Stilling.Navn "
-                    + "FROM Bruker, Stilling where Stilling_ID = Stilling.ID");
+            ResultSet rs = stmnt.executeQuery("Select `Bruker`.`ID`, `Brukernavn`, `Fornavn`, `Mellomnavn`,`Etternavn`, `Epost`, `IM`, `Telefonnr`, `Adresse`, `Postnummer`, `By`, `Stilling`.`Navn` FROM Bruker, Stilling WHERE Stilling_ID = Stilling.ID");
             while(rs.next())
             {
                 int id = rs.getInt("ID");
@@ -110,7 +108,7 @@ public class DBConnection {
         try
         {
             stmnt = con.createStatement();
-            ResultSet rs = stmnt.executeQuery("SELECT ID, Fase.Navn, Dato_startet, Dato_sluttet, Status, Beskrivelse, Prosjekt.Navn "
+            ResultSet rs = stmnt.executeQuery("SELECT `Fase`.`ID`, `Fase`.`Navn`, `Dato_startet`, `Dato_sluttet`, `Status`, `Beskrivelse`, `Prosjekt`.`Navn` "
                     + "FROM Fase, Prosjekt WHERE Prosjekt_ID = Prosjekt.ID");
             
             while(rs.next())
@@ -174,7 +172,7 @@ public class DBConnection {
         try
         {
             stmnt = con.createStatement();
-            ResultSet rs = stmnt.executeQuery("SELECT Team.ID, Bruker.Fornavn, Bruker.Mellomnavn Bruker.Etternavn, Beskrivelse FROM Team, Bruker "
+            ResultSet rs = stmnt.executeQuery("SELECT `Team`.`ID`, `Bruker`.`Fornavn`, `Bruker`.`Mellomnavn`, `Bruker`.`Etternavn`, `Beskrivelse` FROM Team, Bruker "
                     + "WHERE Teamleader = Bruker.ID");
             
             while(rs.next())
@@ -200,7 +198,7 @@ public class DBConnection {
         try
         {
             stmnt = con.createStatement();
-            ResultSet rs = stmnt.executeQuery("SELECT Time.ID, Fra, Til, Pause, Dato, Bruker.Fornavn, Bruker.Etternavn, Oppgave.Navn, Kommentar, Sted, Aktiv "
+            ResultSet rs = stmnt.executeQuery("SELECT `Time`.`ID`, `Fra`, `Til`, `Pause`, `Dato`, `Bruker`.`Fornavn`, `Bruker`.`Etternavn`, `Oppgave`.`Tittel`, `Kommentar`, `Sted`, `Aktiv` "
                     + "FROM Time, Bruker, Oppgave WHERE Bruker_ID = Bruker.ID AND Oppgave_ID = Oppgave.ID");
             while(rs.next())
             {
@@ -271,13 +269,19 @@ public class DBConnection {
     public Boolean checkInnlogging(String brukernavn, String passord)
     {
         boolean check = false;
+        String salt = null;
         try
         {
             stmnt = con.createStatement();
-            ResultSet rs = stmnt.executeQuery("SELECT Salt FROM Bruker WHERE Brukernavn = " + brukernavn);
-            String salt = rs.getString("Salt");
+            ResultSet rs = stmnt.executeQuery("SELECT Salt FROM Bruker WHERE Brukernavn like " + "'"+brukernavn+"'");
+            while(rs.next())
+            {
+               salt = rs.getString("Salt"); 
+            }
+            //stmnt.close();
+            //stmnt = con.createStatement();
             String passWord = getHash(salt, passord);
-            ResultSet rs2 = stmnt.executeQuery("SELECT * FROM Bruker WHERE Passord = " + passWord);
+            ResultSet rs2 = stmnt.executeQuery("SELECT * FROM Bruker WHERE Passord = " + "'"+ passWord + "'");
             while(rs2.next())
             {
                 check = true;
@@ -287,7 +291,7 @@ public class DBConnection {
         }
         catch (Exception e)
         {
-            
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, e);
         }
         finally
         {
