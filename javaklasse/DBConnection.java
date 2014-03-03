@@ -357,5 +357,25 @@ public class DBConnection {
         
     }
 
+    public void addUser(String brukernavn, String passord, String fornavn, String mellomnavn, String etternavn, String epost, 
+            String im, String telefonnr, String adresse, String postnr, String by) throws SQLException
+    {
+        try{
+        stmnt = con.createStatement();
+        String query = "INSERT INTO `HLVDKN_DB1`.`Bruker` (`ID`, `Brukernavn`, `Passord`, `Salt`, `Fornavn`, `Mellomnavn`, `Etternavn`, `Epost`, `IM`, `Telefonnr`, `Adresse`, `Postnummer`, `By`)"
+                       + " VALUES(NULL, " + brukernavn + ", passord, salt, " + fornavn + ", " + mellomnavn + ", " + etternavn + ", " + epost + ", " + im + ", " + telefonnr + ", " + adresse + ", " + postnr + ", " + by +", NULL, NULL)"; 
+        stmnt.executeUpdate(query);
+        }catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        finally
+        {
+
+            if(stmnt != null)
+                stmnt.close();
+        }
+      
+    } 
     
 }
