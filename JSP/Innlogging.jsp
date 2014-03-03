@@ -12,8 +12,7 @@
         <title>Innlogging</title>
     </head>
     <body>
-        
-        <form name="login" action="index_submit" method="get" accept-charset="utf-8">  
+        <form name="login" action="sjekk_login" method="post" accept-charset="utf-8">  
     <ul>  
         <li><label for="brukernavn">Brukernavn</label>  
         <input type="text" name="brukernavn" placeholder="Brukernavn" required></li>
