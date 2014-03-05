@@ -19,8 +19,9 @@ public class Prosjekt {
     public Prosjekt()
     {
         navn = null;
-        oppsummering=null;
-        nesteFase=null;
+        oppsummering = null;
+        nesteFase = null;
+        id = null;
     }
 
 

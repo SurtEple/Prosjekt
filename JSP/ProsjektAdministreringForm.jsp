@@ -13,7 +13,7 @@
     </head>
     <body>
         <h1>Prosjektadministrering</h1>
-        
+        <br>
           <h3>Nytt Prosjekt</h3>
           
         <form name="Nytt prosjekt" action="ProsjektAdministrering.jsp">
@@ -25,16 +25,19 @@
             <br> Neste fase: <br>
             <textarea name="nesteFase" rows="4" cols="20">
             </textarea>
-            <input type="submit" value="OK" />
+            <input type="submit" value="Legg til" />
         </form>
-          
+          <br>
+          <br>
           
          <h3>Slett Prosjekt</h3>
-          
-        <form name="Nytt prosjekt" action="ProsjektAdministrering.jsp">
+         
+        <form name="Slett prosjekt" action="ProsjektAdministrering.jsp">
             <br> ProsjektID: <br> 
-            <input type="text" name="prosjektID" />
-            <input type="submit" value="OK" />
+            <input type="text" name="id" />
+            <input type="submit" value="Slett" />
         </form>
+         
+         
     </body>
 </html>

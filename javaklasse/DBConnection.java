@@ -433,7 +433,10 @@ public class DBConnection {
     }
 
 
-       //Nytt Prosjekt 
+    /**
+     * Nytt prosjekt
+     * @author Thomas & Thea
+    */
     public Boolean insertProject(String navn, String oppsummering, String nesteFase) throws SQLException
     {
         String insertQ = "INSERT INTO Prosjekt(Navn, Oppsummering, Neste_Fase) VALUES (?,?,?)";
@@ -462,6 +465,38 @@ public class DBConnection {
             return check;
         }
     }
+
+    /**
+     * Slett prosjekt
+     * @author Thomas & Thea
+    */   
+     public boolean delProject(int id) throws SQLException
+    {
+       String deleteQ = "DELETE FROM Prosjekt WHERE ID = ?";
+        boolean check = false;
+        PreparedStatement preparedStatement = null;
+
+        try
+        {
+            preparedStatement = con.prepareStatement(deleteQ);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+            check = true;
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+            check = false;
+        }
+        finally
+        {
+            if(preparedStatement != null)
+                preparedStatement.close();
+            
+            return check;
+        }
+    }
+
 
     public boolean isClosed()
     {

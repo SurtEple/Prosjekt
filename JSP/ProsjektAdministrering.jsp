@@ -17,31 +17,36 @@
            <jsp:useBean id="nameBean" scope="request" class="javaklasse.Prosjekt" />
            <jsp:useBean id="summaryBean" scope="request" class="javaklasse.Prosjekt" />
            <jsp:useBean id="nextPhaseBean" scope="request" class="javaklasse.Prosjekt" />
+           <jsp:useBean id="idBean" scope="request" class="javaklasse.Prosjekt" />
             <jsp:useBean id="connBean" scope="request" class="javaklasse.DBConnection" />
            
            
-           <jsp:setProperty name="nameBean" property="navn" />        
+           <jsp:setProperty name="nameBean" property="navn" />    
+           <jsp:setProperty name="idBean" property="id" />   
            <jsp:setProperty name="summaryBean" property="oppsummering" />
            <jsp:setProperty name="nextPhaseBean" property="nesteFase"  /> 
            
            <% 
                String navn = nameBean.getNavn();
                String oppsummering = summaryBean.getOppsummering();
+               int id = idBean.getId();
                String nesteFase = nextPhaseBean.getNesteFase();
                DBConnection con = new DBConnection();
                
             %> 
-           <h3> Navn: <%= navn %>   
-               <br>
-               Oppsummering: <%= oppsummering %>   
-               <br>
-               Neste Fase: <%= nesteFase %>   
-               <br>
-               Innsetting: <%
+           <h3> 
+ <%
                
                if (con.insertProject(navn, oppsummering, nesteFase)){
-                    out.append("Innsetting OK");
-               }  else { out.append("Innsetting feilet!");}
+                   
+                   
+                    out.append("<br>Innsetting OK!");
+               } else if (con.delProject(id)){
+                    out.append("<br>Sletting OK!");
+               }
+               else { out.append("SQL Query feilet!");}
+   
+               
                %>
            </h3>
            
