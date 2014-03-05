@@ -6,18 +6,21 @@
 
 package javaklasse;
 
-/**
- *
- * @author Martin
- */
 public class Team {
     private int id;
+    private int teamlederId;
     private String teamLeader;
     private String beskrivelse;
     
-    public Team(int id, String teamLeader, String beskrivelse)
+    public Team(){
+        teamLeader=null;
+        beskrivelse=null;
+    }
+    
+    public Team(int id, int teamlederId, String teamLeader, String beskrivelse)
     {
         this.id = id;
+        this.teamlederId = teamlederId;
         this.teamLeader = teamLeader;
         this.beskrivelse = beskrivelse;
     }
@@ -28,6 +31,14 @@ public class Team {
 
     public void setId(int id) {
         this.id = id;
+    }
+    
+    public int getTeamlederId() {
+        return teamlederId;
+    }
+
+    public void setTeamlederId(int teamlederId) {
+        this.teamlederId = teamlederId;
     }
 
     public String getTeamLeader() {
