@@ -54,6 +54,7 @@ public final class projectadmin_jsp extends org.apache.jasper.runtime.HttpJspBas
       out.write("        <h1>Prosjektadministrering</h1>\n");
       out.write("        \n");
       out.write("          <h3>Nytt Prosjekt</h3>\n");
+      out.write("          \n");
       out.write("        <form name=\"Nytt prosjekt\" action=\"response.jsp\">\n");
       out.write("            <br> Prosjektnavn: <br> \n");
       out.write("            <input type=\"text\" name=\"navn\" />\n");

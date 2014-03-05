@@ -16,7 +16,12 @@ public class Prosjekt {
     private String oppsummering;
     private String nesteFase;
     
-    public Prosjekt(){}
+    public Prosjekt()
+    {
+        navn = null;
+        oppsummering=null;
+        nesteFase=null;
+    }
 
       public Prosjekt( String navn, String oppsummering, String nesteFase)
     {

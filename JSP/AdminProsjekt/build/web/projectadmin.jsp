@@ -15,6 +15,7 @@
         <h1>Prosjektadministrering</h1>
         
           <h3>Nytt Prosjekt</h3>
+          
         <form name="Nytt prosjekt" action="response.jsp">
             <br> Prosjektnavn: <br> 
             <input type="text" name="navn" />

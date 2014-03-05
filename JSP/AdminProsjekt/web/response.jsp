@@ -12,16 +12,18 @@
         <title>JSP Page</title>
     </head>
        <body>
-           <jsp:useBean id="name" scope="session" class="database.Prosjekt" />
-           <jsp:useBean id="oppsummering" scope="session" class="database.Prosjekt" />
-           <jsp:useBean id="nestefase" scope="session" class="database.Prosjekt" />
-           <jsp:setProperty name="navn" property="navn" />
-           <jsp:setProperty name="oppsummering" property="oppsummering" />
-           <jsp:setProperty name="nesteFase" property="nesteFase"  />
+           <jsp:useBean id="nameBean" scope="session" class="database.Prosjekt" />
+           <jsp:useBean id="summaryBean" scope="session" class="database.Prosjekt" />
+           <jsp:useBean id="nextphaseBean" scope="session" class="database.Prosjekt" />
            
-           <h3> Navn: <jsp:getProperty name="navn" property="navn" />
-               Oppsummering: <jsp:getProperty name="oppsummering" property="oppsummering" />
-               Neste Fase: <jsp:getProperty name="nesteFase" property="nesteFase" />
+           <jsp:setProperty name="nameBean" property="navn" />
+           
+           <jsp:setProperty name="summaryBean" property="oppsummering" />
+           <jsp:setProperty name="nextphaseBean" property="nesteFase"  />
+           
+           <h3> Navn: <jsp:getProperty name="nameBean" property="navn" />
+               Oppsummering: <jsp:getProperty name="summaryBean" property="oppsummering" />
+               Neste Fase: <jsp:getProperty name="nextphaseBean" property="nesteFase" />
            </h3>
-</body>
+         </body> 
 </html>
