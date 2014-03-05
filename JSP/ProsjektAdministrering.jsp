@@ -39,7 +39,7 @@
                <br>
                Innsetting: <%
                
-               if (con.newProject(navn, oppsummering, nesteFase)){
+               if (con.insertProject(navn, oppsummering, nesteFase)){
                     out.append("Innsetting OK");
                }  else { out.append("Innsetting feilet!");}
                %>
