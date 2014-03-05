@@ -434,7 +434,7 @@ public class DBConnection {
 
 
        //Nytt Prosjekt 
-    public Boolean newProject(String navn, String oppsummering, String nesteFase) throws SQLException
+    public Boolean insertProject(String navn, String oppsummering, String nesteFase) throws SQLException
     {
         String insertQ = "INSERT INTO Prosjekt(Navn, Oppsummering, Neste_Fase) VALUES (?,?,?)";
         boolean check = false;
@@ -464,7 +464,7 @@ public class DBConnection {
             return check;
         }
     }
-    
+
     public boolean isClosed()
     {
         try {
