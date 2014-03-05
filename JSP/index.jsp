@@ -16,6 +16,8 @@
         
         <a href="NyttTeamForm.jsp">Nytt Team</a><br/>
         <a href="NyBrukerForm.jsp">Ny Bruker</a><br/>
+		
+		<br/><a href="utlisting.jsp">Vis tabeller i database</a><br/>
     
     </body>
 </html>
