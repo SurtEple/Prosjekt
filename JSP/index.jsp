@@ -14,7 +14,9 @@
     <body>
         <h1>Linker til andre .JSP sider</h1>
         
-        <a href="NyttTeamForm.jsp">Nytt Team</a>
+        <a href="NyttTeamForm.jsp">Nytt Team</a><br/>
+        <a href="NyBrukerForm.jsp">Ny Bruker</a><br/>
     
     </body>
 </html>
+

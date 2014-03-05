@@ -1,10 +1,10 @@
 <%-- 
-    Document   : Ny_Bruker
+    Document   : NyBrukerForm
     Created on : 03.mar.2014, 12:10:45
     Author     : Vos
 --%>
 <%@page import="java.io.*"%>
-<%@page import ="java.sql.*" %>
+<%@page import="java.sql.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,8 +12,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Opprette ny bruker</title>
     </head>
+    
     <body>
-        <form name="nybruker" action="NyBruker.jsp" method="post" accept-charset="utf-8">  
+        <form name="nybruker" action="NyBruker.jsp" method="POST" accept-charset="utf-8">  
     <ul>  
         <li><label for="brukernavn">Brukernavn</label>  
         <input type="text" name="brukernavn" placeholder="Brukernavn" required></li>
@@ -53,6 +54,8 @@
         
         <li><input type="submit" value="submit"></li>
     </ul>  
-           
+    <br/>
+    <a href="index.jsp">Tilbake til hovedsiden</a>        
+            
     </body>
 </html>
