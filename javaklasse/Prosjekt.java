@@ -16,6 +16,14 @@ public class Prosjekt {
     private String oppsummering;
     private String nesteFase;
     
+    public Prosjekt()
+    {
+        navn = null;
+        oppsummering=null;
+        nesteFase=null;
+    }
+
+
     public Prosjekt(int id, String navn, String oppsummering, String nesteFase)
     {
         this.id = id;

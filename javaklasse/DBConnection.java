@@ -431,6 +431,40 @@ public class DBConnection {
             return sb.toString();
         }
     }
+
+
+       //Nytt Prosjekt 
+    public Boolean newProject(String navn, String oppsummering, String nesteFase) throws SQLException
+    {
+        String insertQ = "INSERT INTO Prosjekt(Navn, Oppsummering, Neste_Fase) VALUES (?,?,?)";
+        boolean check = false;
+        PreparedStatement preparedStatement = null;
+
+        try
+        {
+            preparedStatement = con.prepareStatement(insertQ);
+            preparedStatement.setString(1, navn);
+            preparedStatement.setString(2, oppsummering);
+            preparedStatement.setString(3, nesteFase);
+            preparedStatement.executeUpdate();
+            check = true;
+           // return "Innsetting OK!";
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+            check = false;
+           // return "Innsetting Feilet!";
+        }
+        finally
+        {
+            if(preparedStatement != null)
+                preparedStatement.close();
+            
+            return check;
+        }
+    }
+    
     public boolean isClosed()
     {
         try {
