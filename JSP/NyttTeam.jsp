@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import="database.*" %>
+<%@ page import="javaklasse.*" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,8 +18,8 @@
         <!-- Henter informasjon fra form i teamadministrasjon.jsp og 
         lagrer den i database.-->
 
-        <jsp:useBean id="teamlederIdBean" scope="session" class="database.Team" />
-        <jsp:useBean id="beskrivelseBean" scope="session" class="database.Team" />
+        <jsp:useBean id="teamlederIdBean" scope="session" class="javaklasse.Team" />
+        <jsp:useBean id="beskrivelseBean" scope="session" class="javaklasse.Team" />
  
         <jsp:setProperty name="teamlederIdBean" property="teamlederId" />
         <jsp:setProperty name="beskrivelseBean" property="beskrivelse"  />
@@ -37,5 +37,7 @@
             }
         %>
         
+        <br/>
+        <a href="index.jsp">Hjem</a>
     </body>
 </html>

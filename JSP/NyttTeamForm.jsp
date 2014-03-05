@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import="database.*" %>
+<%@ page import="javaklasse.*" %>
 <%@ page import="java.util.*" %>
 <!DOCTYPE html>
 <html>
@@ -41,5 +41,7 @@
             <input type="submit" value="Lagre"/>
         </form>   
         
+        <br/>
+        <a href="index.jsp">Hjem</a>
     </body>
 </html>
