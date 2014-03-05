@@ -88,7 +88,31 @@ public class DBConnection {
         
         try
         {
-            
+            stmnt = con.createStatement();
+            ResultSet rs = stmnt.executeQuery("SELECT c.ID, a.Navn, p.Tittel, c.EstimertTid, c.Tittel, c.Beskrivelse, c.Ferdig, c.Brukt_tid, c.Dato_begynt, c.Dato_ferdig\n" +
+                                    "FROM Oppgave c, Oppgave p, Prosjekt a\n" +
+                                    "WHERE c.Foreldreoppgave_ID = p.ID\n" +
+                                    "AND c.Prosjekt_ID = a.ID");
+            while(rs.next())
+            {
+                int id = rs.getInt("c.ID");
+                String prosjekt = rs.getString("a.Navn");
+                String foreldreOppgave = rs.getString("p.Tittel");
+                double estimertTid = rs.getDouble("c.EstimertTid");
+                String tittel = rs.getString("c.Tittel");
+                String beskrivelse = rs.getString("c.Beskrivelse");
+                String ferdig;
+                if(rs.getInt("c.Ferdig") == 1)
+                    ferdig = "ja";
+                else
+                    ferdig = "nei";
+                double bruktTid = rs.getDouble("c.Brukt_tid");
+                String datoBegynt = rs.getDate("c.Dato_begynt") + "";
+                String datoFerdig = rs.getDate("c.Dato_ferdig")+"";
+                
+                liste.add(new Oppgave(id,prosjekt,foreldreOppgave,estimertTid,tittel,beskrivelse,ferdig,bruktTid,datoBegynt,datoFerdig));
+                
+            }
         }
         catch (Exception e)
         {
@@ -133,12 +157,7 @@ public class DBConnection {
         }
             
     }   
-    /*
-    public ArrayList<Oppgave> selectOppgave()
-    {
-        ArrayList<Oppgave> liste = new ArrayList<Oppgave>
-    }
-    */
+
     public ArrayList<Prosjekt> selectProsjekt()
     {
         ArrayList<Prosjekt> liste = new ArrayList<Prosjekt>();
@@ -192,6 +211,7 @@ public class DBConnection {
             return liste;
         }
     }
+
     public ArrayList<Time> selectTime()
     {
         ArrayList<Time> liste = new ArrayList<Time>();
@@ -231,7 +251,7 @@ public class DBConnection {
             return liste;
         }
     }
- 
+    
     public void insert(String _query) throws SQLException
     {
         try{
@@ -264,6 +284,71 @@ public class DBConnection {
 
             if(stmnt != null)
                 stmnt.close();
+        }
+    }
+    public boolean insertUser(int id, String brukernavn, String passord, String fornavn, String mellomnavn, String etternavn, String epost, 
+            String im, String telefonnr, String adresse, String postnr, String by) throws SQLException
+    {
+        boolean check = false;
+        String query = "INSERT INTO `HLVDKN_DB1`.`Bruker` (`ID`, `Brukernavn`, `Passord`, `Salt`, `Fornavn`, `Mellomnavn`, `Etternavn`, `Epost`, `IM`, `Telefonnr`, `Adresse`, `Postnummer`, `By`)"
+                       + " VALUES(NULL, " + brukernavn + ", passord, salt, " + fornavn + ", " + mellomnavn + ", " + etternavn + ", " + epost + ", " + im + ", " + telefonnr + ", " + adresse + ", " + postnr + ", " + by +", NULL, NULL)"; 
+        PreparedStatement preparedStatement = con.prepareStatement(query);
+        
+        try{
+            preparedStatement.setInt(1, id);
+            preparedStatement.setString(2, brukernavn);
+            preparedStatement.setString(3, passord);
+            preparedStatement.setString(4, fornavn);
+            preparedStatement.setString(5, mellomnavn);
+            preparedStatement.setString(6, etternavn);
+            preparedStatement.setString(7, epost);
+            preparedStatement.setString(8, im);
+            preparedStatement.setString(9, telefonnr);
+            preparedStatement.setString(10, adresse);
+            preparedStatement.setString(11, postnr);
+            preparedStatement.setString(12, by);
+            preparedStatement.executeUpdate();
+            check = true;
+        }catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+            check = false;
+        }
+        finally
+        {
+
+            if(preparedStatement != null)
+                preparedStatement.close();
+            return check;
+        }
+      
+    } 
+    public boolean insertTeam(int teamlederId, String beskrivelse) throws SQLException
+    {
+        boolean check = false;
+        PreparedStatement preparedStatement = null;
+        String _query = "INSERT INTO Team"
+		+ "(Teamleder, Beskrivelse) VALUES"
+		+ "(?,?)";
+        try
+        {
+            preparedStatement = con.prepareStatement(_query);
+            preparedStatement.setInt(1, teamlederId);
+            preparedStatement.setString(2, beskrivelse);
+            preparedStatement.executeUpdate();
+            check = true;
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+            check = false;
+        }
+        finally
+        {
+            if(preparedStatement != null)
+                preparedStatement.close();
+                
+            return check;
         }
     }
     public Boolean checkInnlogging(String brukernavn, String passord)
@@ -357,25 +442,5 @@ public class DBConnection {
         
     }
 
-    public void addUser(String brukernavn, String passord, String fornavn, String mellomnavn, String etternavn, String epost, 
-            String im, String telefonnr, String adresse, String postnr, String by) throws SQLException
-    {
-        try{
-        stmnt = con.createStatement();
-        String query = "INSERT INTO `HLVDKN_DB1`.`Bruker` (`ID`, `Brukernavn`, `Passord`, `Salt`, `Fornavn`, `Mellomnavn`, `Etternavn`, `Epost`, `IM`, `Telefonnr`, `Adresse`, `Postnummer`, `By`)"
-                       + " VALUES(NULL, " + brukernavn + ", passord, salt, " + fornavn + ", " + mellomnavn + ", " + etternavn + ", " + epost + ", " + im + ", " + telefonnr + ", " + adresse + ", " + postnr + ", " + by +", NULL, NULL)"; 
-        stmnt.executeUpdate(query);
-        }catch(Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
-        finally
-        {
-
-            if(stmnt != null)
-                stmnt.close();
-        }
-      
-    } 
     
 }
