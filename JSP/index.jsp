@@ -18,6 +18,8 @@
         <a href="NyBrukerForm.jsp">Ny Bruker</a><br/>
 		
 		<br/><a href="utlisting.jsp">Vis tabeller i database</a><br/>
+
+       <br> <a href="ProsjektAdministreringForm.jsp">Ny Bruker</a> <br/>
     
     </body>
 </html>
