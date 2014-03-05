@@ -448,13 +448,11 @@ public class DBConnection {
             preparedStatement.setString(3, nesteFase);
             preparedStatement.executeUpdate();
             check = true;
-           // return "Innsetting OK!";
         }
         catch(Exception e)
         {
             System.out.println(e.getMessage());
             check = false;
-           // return "Innsetting Feilet!";
         }
         finally
         {
