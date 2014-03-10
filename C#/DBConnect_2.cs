@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using MySql.Data.MySqlClient;
@@ -282,6 +282,51 @@ namespace Timeregistreringssystem
 
          }
          return check;
+     }
+
+  /**
+  * Koble Team til Prosjekt
+  * @author Thomas & Thea
+  */
+     public bool connectTeamToProject(int teamID, int prosjektID) 
+     { 
+         bool check = false;
+         int result = 0;
+
+         if (this.OpenConnection() == true)
+         {
+
+             //Create Command
+             String connectString = String.Format("INSERT INTO KoblingTeamProsjekt(Team_ID, Prosjekt_ID) VALUES ({0}, {1}); ", teamID, prosjektID);
+
+             MySqlCommand connectCommand = new MySqlCommand(connectString, connection);
+
+             try
+             {
+                 connectCommand.Prepare(); //??
+                 result = connectCommand.ExecuteNonQuery();
+                 check = true;
+             }
+             catch (Exception e)
+             {
+                 Debug.WriteLine(e.Message);
+                 check = false;
+             }
+             finally
+             {
+                 if (result == 0)
+                 {
+                     connectCommand.Cancel();
+                     check = false;
+                 }
+
+                 //close Connection
+                 this.CloseConnection();
+             }
+
+         }
+         
+        return check;
      }
 
 

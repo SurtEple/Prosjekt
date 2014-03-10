@@ -136,7 +136,192 @@ namespace Timeregistreringssystem
             }
         }
 
+     /**
+     * Nytt prosjekt
+     * @author Thomas & Thea
+    */
+    public bool insertProject(String navn, String oppsummering, String nesteFase)
+    {
+      
+        bool check = false;
+        int result=0;
 
+        if (this.OpenConnection() == true)
+        {
+          
+            //Create Command
+            String insertString = String.Format("INSERT INTO Prosjekt(Navn, Oppsummering, Neste_Fase) VALUES ('{0}','{1}','{2}')", navn, oppsummering, nesteFase);
+            MySqlCommand insertCommand = new MySqlCommand(insertString, connection);
+
+            try
+            {
+
+                insertCommand.Prepare(); //??
+                result = insertCommand.ExecuteNonQuery();
+                check = true;
+            }
+            catch (Exception e)
+            {
+               
+                Debug.WriteLine(e.Message);
+                check = false;
+            }
+            finally
+            {
+                if (result == 0)
+                {
+                    insertCommand.Cancel();
+                    check = false;
+
+                }
+
+                //close Connection
+                this.CloseConnection();
+            }
+
+        }
+        return check;
+    }
+
+    /**
+     * Slett prosjekt
+     * @author Thomas & Thea
+    */   
+     public bool delProject(int id)
+    {
+        String deleteString = String.Format("DELETE FROM Prosjekt WHERE ID = {0}", id);
+        bool check = false;
+        int result = 0;
+
+        MySqlCommand deleteCommand = new MySqlCommand(deleteString, connection);
+
+        if (this.OpenConnection() == true)
+        {
+            try
+            {
+                deleteCommand.Prepare(); //??
+                result = deleteCommand.ExecuteNonQuery();
+
+                check = true;
+            }
+            catch(Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                check = false;
+            }
+            finally
+            {
+                if (result == 0)
+                {
+                    deleteCommand.Cancel();
+                    check = false;
+
+                }
+
+                //close Connection
+                this.CloseConnection();
+            }
+            
+        }
+        return check;
+    }//Delete project
+
+
+
+/**
+* Edit prosjekt
+* @author Thomas & Thea
+*/
+     public bool editProject(int id, String nyttNavn, String nyOppsummering, String nyNesteFase)
+     {
+
+         bool check = false;
+         int result = 0;
+
+         if (this.OpenConnection() == true)
+         {
+
+             //Create Command
+          
+             String editString = String.Format("UPDATE Prosjekt SET Navn = '{0}', Oppsummering = '{1}', Neste_Fase='{2}' WHERE ID = {3}",
+                 nyttNavn, nyOppsummering, nyNesteFase, id);
+
+             MySqlCommand editCommand = new MySqlCommand(editString, connection);
+
+             try
+             {
+
+                 editCommand.Prepare(); //??
+                 result = editCommand.ExecuteNonQuery();
+                 check = true;
+             }
+             catch (Exception e)
+             {
+
+                 Debug.WriteLine(e.Message);
+                 check = false;
+             }
+             finally
+             {
+                 if (result == 0)
+                 {
+                     editCommand.Cancel();
+                     check = false;
+
+                 }
+
+                 //close Connection
+                 this.CloseConnection();
+             }
+
+         }
+         return check;
+     }
+
+  /**
+  * Koble Team til Prosjekt
+  * @author Thomas & Thea
+  */
+     public bool connectTeamToProject(int teamID, int prosjektID) 
+     { 
+         bool check = false;
+         int result = 0;
+
+         if (this.OpenConnection() == true)
+         {
+
+             //Create Command
+             String connectString = String.Format("INSERT INTO KoblingTeamProsjekt(Team_ID, Prosjekt_ID) VALUES ({0}, {1}); ", teamID, prosjektID);
+
+             MySqlCommand connectCommand = new MySqlCommand(connectString, connection);
+
+             try
+             {
+                 connectCommand.Prepare(); //??
+                 result = connectCommand.ExecuteNonQuery();
+                 check = true;
+             }
+             catch (Exception e)
+             {
+                 Debug.WriteLine(e.Message);
+                 check = false;
+             }
+             finally
+             {
+                 if (result == 0)
+                 {
+                     connectCommand.Cancel();
+                     check = false;
+                 }
+
+                 //close Connection
+                 this.CloseConnection();
+             }
+
+         }
+         
+        return check;
+     }
 
     }
 }

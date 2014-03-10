@@ -25,9 +25,12 @@
         .auto-style6 {
             width: 178px;
         }
+        .auto-style7 {
+            width: 180px;
+        }
     </style>
 </head>
-<body>
+<body style="height: 2243px">
     <form id="form1" runat="server">
     <div>
 
@@ -55,7 +58,7 @@
 
         </table>
 
-        <asp:Button ID="btnLagre" runat="server" Height="34px" OnClick="btnLagre_Click" Text="Lagre" Width="159px" />
+        <asp:Button ID="btnLagre" runat="server" Height="34px" OnClick="btnLagre_Click" Text="Lagre Nytt Prosjekt" Width="159px" />
 
 
       
@@ -69,7 +72,7 @@
 
       
     </div>
-
+        <br />
     <div>
         <h1>Slett Prosjekt</h1>
 
@@ -80,13 +83,8 @@
                     <asp:TextBox ID="textBoxProsjektID" runat="server" Height="22px" Width="160px"></asp:TextBox>
                 </td>
                 <td>
-
-        <asp:Button ID="btnSlett" runat="server" Height="34px" OnClick="btnSlett_Click" Text="Slett" Width="159px" />
-
-
-      
+                 <asp:Button ID="btnSlett" runat="server" Height="34px" OnClick="btnSlett_Click" Text="Slett" Width="159px" />
                 </td>
-
             </tr>
 
         </table>
@@ -100,7 +98,7 @@
         </p>
 
     </div>
-
+        <br />
         <div>
             <h1>Redigere Prosjekt</h1>
             <table>
@@ -139,9 +137,43 @@
             <br />
 
             <h2>Nye Detaljer: </h2>
-             <asp:TextBox ID="textBoxNewDetails" runat="server" Height="123px" Width="220px" ReadOnly="True" TextMode="MultiLine"></asp:TextBox>
 
         </div>
+
+             <asp:TextBox ID="textBoxNewDetails" runat="server" Height="100px" Width="220px" ReadOnly="True" TextMode="MultiLine"></asp:TextBox>
+
+        <br />
+
+        <div>
+            <h1>Koble Team til Prosjekt</h1>
+            <table>
+                <tr>
+                <td class="auto-style7">ProsjektID:</td>
+                <td class="auto-style2">
+                    <asp:TextBox ID="textBoxConnectProjectID" runat="server"></asp:TextBox>
+                </td>
+            </tr>
+                <tr>
+                <td class="auto-style7">TeamID: </td>
+                <td class="auto-style2">
+                    <asp:TextBox ID="textBoxConnectTeamID" runat="server"></asp:TextBox>
+                </td>
+
+                </tr>
+
+            </table>
+
+            <br />
+            <br />
+             <asp:Button ID="btnConnectTeamProject" runat="server" Text="Lagre Kobling" Width="128px" OnClick="btnConnectTeamProject_Click" />
+
+        </div>
+   
+        <h3>Resultat: </h3>
+        <p>
+             <asp:TextBox ID="textBoxConnectResult" runat="server" Height="46px" Width="220px" ReadOnly="True" TextMode="MultiLine"></asp:TextBox>
+
+        </p>
    
 
        
