@@ -13,44 +13,140 @@
             height: 29px;
             width: 163px;
         }
+        .auto-style2 {
+            width: 315px;
+        }
+        .auto-style4 {
+            width: 119px;
+        }
+        .auto-style5 {
+            width: 398px;
+        }
+        .auto-style6 {
+            width: 178px;
+        }
     </style>
 </head>
 <body>
     <form id="form1" runat="server">
-    <div style="height: 328px">
-
-        <asp:TextBox ID="resultBox" runat="server" Height="81px" Width="281px"></asp:TextBox>
+    <div>
 
 
-      
-        <table style="width: 100%; height: 139px;">
+      <h1>Nytt Prosjekt</h1>
+        <table>
             <tr>
-                <td class="auto-style1">Navn:</td>
-                <td>
-                    <asp:TextBox ID="textBoxNavn" runat="server"></asp:TextBox>
+                <td class="auto-style4">Navn:</td>
+                <td class="auto-style5">
+                    <asp:TextBox ID="textBoxNavn" runat="server" Height="22px" Width="203px"></asp:TextBox>
                 </td>
-                <td>&nbsp;</td>
             </tr>
             <tr>
-                <td class="auto-style1">Oppsummering:</td>
-                <td>
-                    <asp:TextBox ID="textBoxOppsummering" runat="server" Height="44px"  TextMode="MultiLine" Width="177px"></asp:TextBox>
+                <td class="auto-style4">Oppsummering:</td>
+                <td class="auto-style5">
+                    <asp:TextBox ID="textBoxOppsummering" runat="server" Height="59px"  TextMode="MultiLine" Width="212px"></asp:TextBox>
                 </td>
-                <td>&nbsp;</td>
             </tr>
             <tr>
-                <td class="auto-style1">Neste Fase:</td>
-                <td>
-                    <asp:TextBox ID="textBoxNesteFase" runat="server" Height="44px" TextMode="MultiLine" Width="177px"></asp:TextBox>
+                <td class="auto-style4">Neste Fase:</td>
+                <td class="auto-style5">
+                    <asp:TextBox ID="textBoxNesteFase" runat="server" Height="68px" TextMode="MultiLine" Width="210px"></asp:TextBox>
                 </td>
-                <td>&nbsp;</td>
             </tr>
+
         </table>
+
         <asp:Button ID="btnLagre" runat="server" Height="34px" OnClick="btnLagre_Click" Text="Lagre" Width="159px" />
 
 
       
+        <br />
+        <br />
+        <br />
+        <h3>Resultat</h3>
+
+        <asp:TextBox ID="resultBox" runat="server" Height="81px" Width="281px" ReadOnly="True"></asp:TextBox>
+
+
+      
     </div>
+
+    <div>
+        <h1>Slett Prosjekt</h1>
+
+        <table>
+            <tr>
+                <td class="auto-style1">ProsjektID:</td>
+                <td class="auto-style2">
+                    <asp:TextBox ID="textBoxProsjektID" runat="server" Height="22px" Width="160px"></asp:TextBox>
+                </td>
+                <td>
+
+        <asp:Button ID="btnSlett" runat="server" Height="34px" OnClick="btnSlett_Click" Text="Slett" Width="159px" />
+
+
+      
+                </td>
+
+            </tr>
+
+        </table>
+
+        <h3>ProsjektInfo: </h3>
+
+             <p>
+
+        <asp:TextBox ID="prosjektInfoBox" runat="server" Height="81px" Width="281px" ReadOnly="True" TextMode="MultiLine"></asp:TextBox>
+
+        </p>
+
+    </div>
+
+        <div>
+            <h1>Redigere Prosjekt</h1>
+            <table>
+            <tr>
+                <td class="auto-style6">ProsjektID: </td>
+                <td class="auto-style5">
+                    <asp:TextBox ID="textBoxProjectIDForEdit" runat="server"></asp:TextBox>
+                </td>
+            </tr>
+
+             <tr>
+                <td class="auto-style6">Nytt navn:  </td>
+                <td class="auto-style5">
+                    <asp:TextBox ID="textBoxNewNavn" runat="server"></asp:TextBox>
+                </td>
+            </tr>
+
+                 <tr>
+                <td class="auto-style6">Ny oppsummering: </td>
+                <td class="auto-style5">
+                    <asp:TextBox ID="textBoxNewOppsummering" runat="server" TextMode="MultiLine"></asp:TextBox>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="auto-style6">Ny neste fase: </td>
+                <td class="auto-style5">
+                    <asp:TextBox ID="textBoxNewNesteFase" runat="server" TextMode="MultiLine"></asp:TextBox>
+                </td>
+            </tr>
+
+            </table>
+
+            <br />
+            <asp:Button ID="btnLagreNewProject" runat="server" OnClick="btnLagreNewProject_Click" Text="Lagre" Width="103px" />
+            <br />
+
+            <h2>Nye Detaljer: </h2>
+             <asp:TextBox ID="textBoxNewDetails" runat="server" Height="123px" Width="220px" ReadOnly="True" TextMode="MultiLine"></asp:TextBox>
+
+        </div>
+   
+
+       
+   
+
     </form>
 </body>
 </html>

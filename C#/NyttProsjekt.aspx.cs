@@ -10,8 +10,9 @@ namespace Timeregistreringssystem
     public partial class NyttProsjekt : System.Web.UI.Page
     {
         private DBConnect connection = new DBConnect();
-        private bool commandOK = false;
-        private String navn, oppsummering, nesteFase, insertQ;
+        private bool insertOK = false, deleteOK=false, editOK=false;
+        private String navn, oppsummering, nesteFase, nyttNavn, nyOppsummering, nyNesteFase;
+       
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -27,10 +28,44 @@ namespace Timeregistreringssystem
             nesteFase = textBoxNesteFase.Text;
 
             if (navn!=null && oppsummering!=null && nesteFase!=null)
-                commandOK = connection.insertProject(navn, oppsummering, nesteFase);
+                insertOK = connection.insertProject(navn, oppsummering, nesteFase);
 
-            resultBox.Text = "Result: " + commandOK;
+            resultBox.Text = "Result: " + insertOK;
         }
+
+
+
+        protected void btnSlett_Click(object sender, EventArgs e)
+        {
+            
+           int id = Convert.ToInt32(textBoxProsjektID.Text);
+            
+           if(!id.Equals(null))
+            deleteOK= connection.delProject(id);
+
+
+           prosjektInfoBox.Text = "Prosjekt ID: " + textBoxProsjektID.Text + "\nResultat: " + deleteOK;
+        }
+
+        protected void btnLagreNewProject_Click(object sender, EventArgs e)
+        {
+            int id = Convert.ToInt32(textBoxProjectIDForEdit.Text);
+            
+
+            nyttNavn = textBoxNewNavn.Text;
+            nyOppsummering = textBoxNewOppsummering.Text;
+            nyNesteFase = textBoxNewNesteFase.Text;
+
+            if (!id.Equals(null))
+           editOK= connection.editProject(id, nyttNavn, nyOppsummering, nyNesteFase);
+
+           textBoxNewDetails.Text = "Prosjekt ID: " + id + "\nNytt navn: " +  nyttNavn + "\nNy Oppsummering: " + nyOppsummering +"\n Ny Neste Fase: " 
+               + nyNesteFase + "\n\n Edit OK: "+editOK;
+
+
+        }
+
+
 
 
     }

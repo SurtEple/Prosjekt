@@ -142,7 +142,7 @@ namespace Timeregistreringssystem
         } //brukerselect
 
 
-         /**
+     /**
      * Nytt prosjekt
      * @author Thomas & Thea
     */
@@ -189,8 +189,100 @@ namespace Timeregistreringssystem
         return check;
     }
 
+    /**
+     * Slett prosjekt
+     * @author Thomas & Thea
+    */   
+     public bool delProject(int id)
+    {
+        String deleteString = String.Format("DELETE FROM Prosjekt WHERE ID = {0}", id);
+        bool check = false;
+        int result = 0;
+
+        MySqlCommand deleteCommand = new MySqlCommand(deleteString, connection);
+
+        if (this.OpenConnection() == true)
+        {
+            try
+            {
+                deleteCommand.Prepare(); //??
+                result = deleteCommand.ExecuteNonQuery();
+
+                check = true;
+            }
+            catch(Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                check = false;
+            }
+            finally
+            {
+                if (result == 0)
+                {
+                    deleteCommand.Cancel();
+                    check = false;
+
+                }
+
+                //close Connection
+                this.CloseConnection();
+            }
+            
+        }
+        return check;
+    }//Delete project
 
 
+
+/**
+* Edit prosjekt
+* @author Thomas & Thea
+*/
+     public bool editProject(int id, String nyttNavn, String nyOppsummering, String nyNesteFase)
+     {
+
+         bool check = false;
+         int result = 0;
+
+         if (this.OpenConnection() == true)
+         {
+
+             //Create Command
+          
+             String editString = String.Format("UPDATE Prosjekt SET Navn = '{0}', Oppsummering = '{1}', Neste_Fase='{2}' WHERE ID = {3}",
+                 nyttNavn, nyOppsummering, nyNesteFase, id);
+
+             MySqlCommand editCommand = new MySqlCommand(editString, connection);
+
+             try
+             {
+
+                 editCommand.Prepare(); //??
+                 result = editCommand.ExecuteNonQuery();
+                 check = true;
+             }
+             catch (Exception e)
+             {
+
+                 Debug.WriteLine(e.Message);
+                 check = false;
+             }
+             finally
+             {
+                 if (result == 0)
+                 {
+                     editCommand.Cancel();
+                     check = false;
+
+                 }
+
+                 //close Connection
+                 this.CloseConnection();
+             }
+
+         }
+         return check;
+     }
 
 
     }
