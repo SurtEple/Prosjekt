@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using MySql.Data.MySqlClient;
-using MySql.Web;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Timeregistreringssystem
 {
@@ -36,9 +35,6 @@ namespace Timeregistreringssystem
             connectionString = "SERVER=" + server + ";" + "DATABASE=" +
             database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
 
-            //OBS! Vi må finne ut av hvordan vi kan koble oss til databasen uten å hardkode all informasjonen!
-            //Det går kanskje an med en configuration file; leste det ett sted.
-
             connection = new MySqlConnection(connectionString);
         }
 
@@ -60,11 +56,11 @@ namespace Timeregistreringssystem
                 switch (ex.Number)
                 {
                     case 0:
-                       // MessageBox.Show("Cannot connect to server.  Contact administrator");
+                        MessageBox.Show("Cannot connect to server.  Contact administrator");
                         break;
 
                     case 1045:
-                        //MessageBox.Show("Invalid username/password, please try again");
+                        MessageBox.Show("Invalid username/password, please try again");
                         break;
                 }
                 return false;
@@ -81,8 +77,7 @@ namespace Timeregistreringssystem
             }
             catch (MySqlException ex)
             {
-              //  MessageBox.Show(ex.Message);
-                Console.WriteLine(ex.Message);
+                MessageBox.Show(ex.Message);
                 return false;
             }
         }
@@ -139,56 +134,7 @@ namespace Timeregistreringssystem
             {
                 return blBrukerListe;
             }
-        } //brukerselect
-
-
-         /**
-     * Nytt prosjekt
-     * @author Thomas & Thea
-    */
-    public bool insertProject(String navn, String oppsummering, String nesteFase)
-    {
-      
-        bool check = false;
-        int result=0;
-
-        if (this.OpenConnection() == true)
-        {
-          
-            //Create Command
-            String insertString = String.Format("INSERT INTO Prosjekt(Navn, Oppsummering, Neste_Fase) VALUES ('{0}','{1}','{2}')", navn, oppsummering, nesteFase);
-            MySqlCommand insertCommand = new MySqlCommand(insertString, connection);
-
-            try
-            {
-
-                insertCommand.Prepare(); //??
-                result = insertCommand.ExecuteNonQuery();
-                check = true;
-            }
-            catch (Exception e)
-            {
-               
-                Debug.WriteLine(e.Message);
-                check = false;
-            }
-            finally
-            {
-                if (result == 0)
-                {
-                    insertCommand.Cancel();
-                    check = false;
-
-                }
-
-                //close Connection
-                this.CloseConnection();
-            }
-
         }
-        return check;
-    }
-
 
 
 
