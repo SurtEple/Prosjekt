@@ -73,36 +73,33 @@ namespace TestMedDBConnect
         }
         public List<Bruker> selectBruker()
         {
-            string query = "Select `Bruker`.`ID`, `Brukernavn`, `Fornavn`, `Mellomnavn`,`Etternavn`, `Epost`, `IM`, `Telefonnr`, `Adresse`, `Postnummer`, `By`, `Stilling`.`Navn` FROM Bruker, Stilling WHERE Stilling_ID = Stilling.ID";
+            string query = "Select b.ID, b.Brukernavn, b.Fornavn, b.Mellomnavn, b.Etternavn, b.Epost, b.IM, b.Telefonnr, b.Adresse, b.Postnummer, b.By, s.Navn FROM Bruker b, Stilling s WHERE b.Stilling_ID = s.ID";
             List<Bruker> list = new List<Bruker>();
-            if(this.OpenConnection() == true)
+            if (this.OpenConnection() == true)
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
 
                 while (dataReader.Read())
                 {
-                    int id = Convert.ToInt32(dataReader["Bruker.ID"]);
-                    string brukernavn = dataReader["Brukernavn"] +"";
-                    string fornavn = dataReader["Fornavn"]+"";
-                    string mellomnavn = dataReader["Mellomnavn"]+"";
-                    string etternavn = dataReader["Etternavn"]+"";
-                    string epost = dataReader["Epost"]+"";
-                    string im = dataReader["IM"]+"";
+                    int id = Convert.ToInt32(dataReader["ID"]);
+                    string brukernavn = dataReader["Brukernavn"] + "";
+                    string fornavn = dataReader["Fornavn"] + "";
+                    string mellomnavn = dataReader["Mellomnavn"] + "";
+                    string etternavn = dataReader["Etternavn"] + "";
+                    string epost = dataReader["Epost"] + "";
+                    string im = dataReader["IM"] + "";
                     string telefon = dataReader["Telefonnr"] + "";
                     string adresse = dataReader["Adresse"] + "";
                     string postnr = dataReader["Postnummer"] + "";
                     string by = dataReader["By"] + "";
-                    string stilling = dataReader["Stilling.Navn"] + "";
+                    string stilling = dataReader["Navn"] + "";
                     list.Add(new Bruker(id, brukernavn, fornavn, mellomnavn, etternavn, epost, im, telefon, adresse, postnr, by, stilling));
-                    
-
                 }
+
                 dataReader.Close();
                 this.CloseConnection();
                 return list;
-
-
             }
             else
             {

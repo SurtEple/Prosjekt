@@ -6,12 +6,12 @@ namespace Timeregistreringssystem
     class Bruker
     {
 
-
-        public Bruker(int id, String fornavn, String mellomnavn, String etternavn, 
+        public Bruker(int id, String brukernavn, String fornavn, String mellomnavn, String etternavn, 
             String epost, String im, String telefonNr, String adresse, String postNr,
             String by, String stilling)
         {
             Id = id;
+            Brukernavn = brukernavn;
             Fornavn = fornavn;
             Mellomnavn = mellomnavn;
             Etternavn = etternavn;
@@ -24,6 +24,7 @@ namespace Timeregistreringssystem
             Stilling = stilling;
         }
         public int Id { get; set; }
+        public String Brukernavn { get; set; }
         public String Fornavn { get; set; }
         public String Mellomnavn { get; set; }
         public String Etternavn { get; set; }
@@ -33,8 +34,7 @@ namespace Timeregistreringssystem
         public String Adresse { get; set; }
         public String PostNr { get; set; }
         public String By { get; set; }
-        public String Stilling { get; set; }
-            
+        public String Stilling { get; set; }   
     
     }
 }
