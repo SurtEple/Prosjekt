@@ -316,5 +316,48 @@ namespace TestMedDBConnect
 
             return sb.ToString();
         }
+		
+		public bool InsertTeam(Team t)
+        {
+            bool check = false;
+
+            if (this.OpenConnection() == true)
+            {
+                try
+                {
+                    MySqlCommand command = new MySqlCommand(null, connection);
+
+                    // Create and prepare an SQL statement
+                    command.CommandText =
+                        "INSERT INTO Team (ID, Teamleder, Beskrivelse) " +
+                        "VALUES (@id, @teamleder, @beskrivelse)";
+
+                    MySqlParameter idParam = new MySqlParameter("@id", MySqlDbType.Int32, 11);
+                    MySqlParameter teamlederParam = new MySqlParameter("@teamleder", MySqlDbType.Int32, 11);
+                    MySqlParameter beskrivelseParam = new MySqlParameter("@beskrivelse", MySqlDbType.Text);
+
+                    idParam.Value = t.Id;
+                    beskrivelseParam.Value = t.Beskrivelse;
+                    teamlederParam.Value = t.TeamLederId;
+
+                    command.Parameters.Add(idParam);
+                    command.Parameters.Add(teamlederParam);
+                    command.Parameters.Add(beskrivelseParam);
+
+                    command.Prepare();
+                    command.ExecuteNonQuery();
+                    check = true;
+                }
+                catch
+                {
+                    check = false;
+                }
+                finally
+                {
+                    this.CloseConnection();
+                }
+            }
+            return check;
+        }
     }
 }
