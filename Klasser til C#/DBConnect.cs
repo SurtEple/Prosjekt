@@ -359,5 +359,47 @@ namespace TestMedDBConnect
             }
             return check;
         }
+		
+		// Setter valgt bruker til å være team-leder
+        public bool setTeamLeder(int id)
+        {
+            bool check = false;
+            int result = 0;
+
+            // Åpner tilkoblingen til databasen
+            if (this.OpenConnection() == true)
+            {
+                
+                // Kommando for å oppdatere valgt bruker til Stilling_ID 4 - leder
+                String oppdatering = String.Format("UPDATE Bruker SET Stilling_ID = 4 WHERE ID = {0}",
+                    id);
+
+                MySqlCommand oppdateringsCommand = new MySqlCommand(oppdatering, connection);
+
+                try
+                {
+                    oppdateringsCommand.Prepare();
+                    result = oppdateringsCommand.ExecuteNonQuery();
+                    check = true;
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                    check = false;
+                }
+                finally
+                {
+                    if (result == 0)
+                    {
+                        oppdateringsCommand.Cancel();
+                        check = false;
+                    }
+
+                    // Lukker tilkoblingen
+                    this.CloseConnection();
+                }
+            }
+            return check;
+        }
     }
 }
