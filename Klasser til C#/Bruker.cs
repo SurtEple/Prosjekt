@@ -34,7 +34,8 @@ namespace Timeregistreringssystem
         public String Adresse { get; set; }
         public String PostNr { get; set; }
         public String By { get; set; }
-        public String Stilling { get; set; }   
+        public String Stilling { get; set; }
+            
     
     }
 }

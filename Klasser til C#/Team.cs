@@ -5,22 +5,17 @@ namespace Timeregistreringssystem
 {
     class Team
     {
-        public Team()
-        {
-            TeamLeder = null;
-            Beskrivelse = null;
-        }
-
-        public Team(int id, int teamlederId, String teamLeder, String beskrivelse)
+        public Team(int id, String beskrivelse, int teamlederId, String teamleder)
         {
             Id = id;
-            TeamLederId = teamlederId;
-            TeamLeder = teamLeder;
             Beskrivelse = beskrivelse;
+            TeamlederId = teamlederId;
+            Teamleder = teamleder;   
         }
+
         public int Id { get; set; }
-        public int TeamLederId { get; set; }
-        public String TeamLeder { get; set; }
         public String Beskrivelse { get; set; }
+        public int TeamlederId { get; set; }
+        public String Teamleder { get; set; }   
     }
 }

@@ -8,8 +8,9 @@ using MySql.Data.MySqlClient;
 using Timeregistreringssystem;
 using System.Text.RegularExpressions;
 using System.Security.Cryptography;
+using System.Diagnostics;
 
-namespace TestMedDBConnect
+namespace Timeregistreringssystem
 {
     class DBConnect
     {
@@ -23,20 +24,29 @@ namespace TestMedDBConnect
         {
             Initialize();
         }
+
         private void Initialize()
         {
-            string[] connectInfo = System.IO.File.ReadAllLines(@"C:\Users\Martin\Documents\Visual Studio 2013\Projects\TestMedDBConnect\TestMedDBConnect\databasetilkobling.txt");
+            /*string[] connectInfo = System.IO.File.ReadAllLines(@"C:\Users\Martin\Documents\Visual Studio 2013\Projects\TestMedDBConnect\TestMedDBConnect\databasetilkobling.txt");
             server = connectInfo[0];
             database = connectInfo[1];
             uid = connectInfo[2];
             password = connectInfo[3];
             string connectionString;
             connectionString = "SERVER=" + server + ";" + "DATABASE=" +
-            database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
-            connection = new MySqlConnection(connectionString);
-            
+            database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";*/
 
+            server = "kark.hin.no";
+            database = "HLVDKN_DB1";
+            uid = "halvardk";
+            password = "halvardk123";
+            string connectionString;
+            connectionString = "SERVER=" + server + ";" + "DATABASE=" +
+            database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
+
+            connection = new MySqlConnection(connectionString);
         }
+
         private bool OpenConnection()
         {
             try
@@ -58,6 +68,7 @@ namespace TestMedDBConnect
                 return false;
             }
         }
+
         private bool CloseConnection()
         {
             try
@@ -71,6 +82,7 @@ namespace TestMedDBConnect
                 return false;
             }
         }
+
         public List<Bruker> selectBruker()
         {
             string query = "Select b.ID, b.Brukernavn, b.Fornavn, b.Mellomnavn, b.Etternavn, b.Epost, b.IM, b.Telefonnr, b.Adresse, b.Postnummer, b.By, s.Navn FROM Bruker b, Stilling s WHERE b.Stilling_ID = s.ID";
@@ -106,6 +118,7 @@ namespace TestMedDBConnect
                 return list;
             }
         }
+
         public List<Oppgave> selectOppgave()
         {
             List<Oppgave> list = new List<Oppgave>();
@@ -145,6 +158,7 @@ namespace TestMedDBConnect
             else
                 return list;
         }
+
         public List<Fase> selectFase()
         {
             List<Fase> list = new List<Fase>();
@@ -173,6 +187,7 @@ namespace TestMedDBConnect
             else
                 return list;
         }
+
         public List<Prosjekt> selectProsjekt()
         {
             string query = "SELECT * FROM Prosjekt";
@@ -197,23 +212,24 @@ namespace TestMedDBConnect
             else
                 return list;
         }
+
         public List<Team> selectTeam()
         {
             List<Team> list = new List<Team>();
-            string query = "SELECT `Team`.`ID`, `Bruker`.`ID`, `Bruker`.`Fornavn`, `Bruker`.`Mellomnavn`, `Bruker`.`Etternavn`, `Beskrivelse` FROM Team, Bruker "
-                    + "WHERE Teamleder = Bruker.ID";
+            string query = "SELECT `Team`.`ID` `Team_ID`, `Bruker`.`ID` `Bruker_ID`, `Bruker`.`Fornavn`, `Bruker`.`Mellomnavn`, `Bruker`.`Etternavn`, `Team`.`Beskrivelse` FROM Team, Bruker "
+                    + "WHERE Team.Teamleder = Bruker.ID";
             if (this.OpenConnection() == true)
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 MySqlDataReader dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
-                    int id = Convert.ToInt32(dr["Team.ID"]);
-                    int teamLedId = Convert.ToInt32(dr["Bruker.ID"]);
-                    string teamLeder = dr["Bruker.Fornavn"] + " " + dr["Bruker.Mellomnavn"] + " " + dr["Bruker.Etternavn"];
+                    int id = Convert.ToInt32(dr["Team_ID"]);
+                    int teamLedId = Convert.ToInt32(dr["Bruker_ID"]);
+                    string teamLeder = dr["Fornavn"] + " " + dr["Mellomnavn"] + " " + dr["Etternavn"];
                     teamLeder = Regex.Replace(teamLeder, @"\s+", " ");
                     string beskrivelse = dr["Beskrivelse"] + "";
-                    list.Add(new Team(id, teamLedId, teamLeder, beskrivelse));
+                    list.Add(new Team(id, beskrivelse, teamLedId, teamLeder));
 
                 }
                 dr.Close();
@@ -223,6 +239,7 @@ namespace TestMedDBConnect
             else
                 return list;
         }
+
         public List<Time> selectTime()
         {
             string query = "SELECT `Time`.`ID`, `Fra`, `Til`, `Pause`, `Dato`, `Bruker`.`Fornavn`, `Bruker`.`Etternavn`, `Oppgave`.`Tittel`, `Kommentar`, `Sted`, `Aktiv` "
@@ -259,6 +276,7 @@ namespace TestMedDBConnect
             else
                 return list;
         }
+
         public bool CheckInnlogging(String brukernavn, String passord)
         {
             bool check = false;
@@ -290,6 +308,7 @@ namespace TestMedDBConnect
             else
                 return check;
         }
+
         public string GetSalt()
         {
             Random r = new Random();
@@ -302,6 +321,7 @@ namespace TestMedDBConnect
             }
             return sb.ToString();
         }
+
         public static byte[] GetHash(string inputString)
         {
             HashAlgorithm algorithm = MD5.Create();  // SHA1.Create()
@@ -316,8 +336,8 @@ namespace TestMedDBConnect
 
             return sb.ToString();
         }
-		
-		public bool InsertTeam(Team t)
+
+        public bool InsertTeam(Team t)
         {
             bool check = false;
 
@@ -338,7 +358,7 @@ namespace TestMedDBConnect
 
                     idParam.Value = t.Id;
                     beskrivelseParam.Value = t.Beskrivelse;
-                    teamlederParam.Value = t.TeamLederId;
+                    teamlederParam.Value = t.TeamlederId;
 
                     command.Parameters.Add(idParam);
                     command.Parameters.Add(teamlederParam);
@@ -357,29 +377,72 @@ namespace TestMedDBConnect
                     this.CloseConnection();
                 }
             }
+
             return check;
         }
-		
-		// Setter valgt bruker til å være team-leder
-        public bool setTeamLeder(int id)
+
+        public bool insertProject(String navn, String oppsummering, String nesteFase)
         {
+
             bool check = false;
             int result = 0;
 
-            // Åpner tilkoblingen til databasen
             if (this.OpenConnection() == true)
             {
-                
-                // Kommando for å oppdatere valgt bruker til Stilling_ID 4 - leder
-                String oppdatering = String.Format("UPDATE Bruker SET Stilling_ID = 4 WHERE ID = {0}",
-                    id);
 
-                MySqlCommand oppdateringsCommand = new MySqlCommand(oppdatering, connection);
+                //Create Command
+                String insertString = String.Format("INSERT INTO Prosjekt(Navn, Oppsummering, Neste_Fase) VALUES ('{0}','{1}','{2}')", navn, oppsummering, nesteFase);
+                MySqlCommand insertCommand = new MySqlCommand(insertString, connection);
 
                 try
                 {
-                    oppdateringsCommand.Prepare();
-                    result = oppdateringsCommand.ExecuteNonQuery();
+
+                    insertCommand.Prepare(); //??
+                    result = insertCommand.ExecuteNonQuery();
+                    check = true;
+                }
+                catch (Exception e)
+                {
+
+                    Debug.WriteLine(e.Message);
+                    check = false;
+                }
+                finally
+                {
+                    if (result == 0)
+                    {
+                        insertCommand.Cancel();
+                        check = false;
+
+                    }
+
+                    //close Connection
+                    this.CloseConnection();
+                }
+
+            }
+            return check;
+        }
+
+        /**
+         * Slett prosjekt
+         * @author Thomas & Thea
+        */
+        public bool delProject(int id)
+        {
+            String deleteString = String.Format("DELETE FROM Prosjekt WHERE ID = {0}", id);
+            bool check = false;
+            int result = 0;
+
+            MySqlCommand deleteCommand = new MySqlCommand(deleteString, connection);
+
+            if (this.OpenConnection() == true)
+            {
+                try
+                {
+                    deleteCommand.Prepare(); //??
+                    result = deleteCommand.ExecuteNonQuery();
+
                     check = true;
                 }
                 catch (Exception e)
@@ -391,14 +454,147 @@ namespace TestMedDBConnect
                 {
                     if (result == 0)
                     {
-                        oppdateringsCommand.Cancel();
+                        deleteCommand.Cancel();
                         check = false;
+
                     }
 
-                    // Lukker tilkoblingen
+                    //close Connection
+                    this.CloseConnection();
+                }
+
+            }
+            return check;
+        }//Delete project
+
+        public bool DeleteTeam(int id)
+        {
+            String deleteString = String.Format("DELETE FROM Team WHERE ID = {0}", id);
+            bool check = false;
+            int result = 0;
+
+            MySqlCommand deleteCommand = new MySqlCommand(deleteString, connection);
+
+            if (this.OpenConnection() == true)
+            {
+                try
+                {
+                    deleteCommand.Prepare(); //??
+                    deleteCommand.ExecuteNonQuery();
+                    check = true;
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                    check = false;
+                }
+                finally
+                {
+                    if (result == 0)
+                    {
+                        deleteCommand.Cancel();
+                        check = false;
+                    }
+                    //close Connection
                     this.CloseConnection();
                 }
             }
+            return check;
+        }
+
+
+        /**
+        * Edit prosjekt
+        * @author Thomas & Thea
+        */
+        public bool editProject(int id, String nyttNavn, String nyOppsummering, String nyNesteFase)
+        {
+
+            bool check = false;
+            int result = 0;
+
+            if (this.OpenConnection() == true)
+            {
+
+                //Create Command
+
+                String editString = String.Format("UPDATE Prosjekt SET Navn = '{0}', Oppsummering = '{1}', Neste_Fase='{2}' WHERE ID = {3}",
+                    nyttNavn, nyOppsummering, nyNesteFase, id);
+
+                MySqlCommand editCommand = new MySqlCommand(editString, connection);
+
+                try
+                {
+
+                    editCommand.Prepare(); //??
+                    result = editCommand.ExecuteNonQuery();
+                    check = true;
+                }
+                catch (Exception e)
+                {
+
+                    Debug.WriteLine(e.Message);
+                    check = false;
+                }
+                finally
+                {
+                    if (result == 0)
+                    {
+                        editCommand.Cancel();
+                        check = false;
+
+                    }
+
+                    //close Connection
+                    this.CloseConnection();
+                }
+
+            }
+            return check;
+        }
+
+        /**
+        * Koble Team til Prosjekt
+        * @author Thomas & Thea
+        */
+        public bool connectTeamToProject(int teamID, int prosjektID)
+        {
+            bool check = false;
+            int result = 0;
+
+            if (this.OpenConnection() == true)
+            {
+
+                //Create Command
+                String connectString = String.Format("INSERT INTO KoblingTeamProsjekt(Team_ID, Prosjekt_ID) VALUES ({0}, {1}); ", teamID, prosjektID);
+
+                MySqlCommand connectCommand = new MySqlCommand(connectString, connection);
+
+                try
+                {
+                    connectCommand.Prepare(); //??
+                    result = connectCommand.ExecuteNonQuery();
+                    check = true;
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                    check = false;
+                }
+                finally
+                {
+                    if (result == 0)
+                    {
+                        connectCommand.Cancel();
+                        check = false;
+                    }
+
+                    //close Connection
+                    this.CloseConnection();
+                }
+
+            }
+
             return check;
         }
     }
